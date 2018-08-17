@@ -1,0 +1,193 @@
+<!DOCTYPE html> 
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+<style>
+td{
+  border: 1px solid black;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  font-size: 18pt;
+}
+</style>
+
+<h1 class = "text-center">Tic Tac Toe</h1>
+
+<div id = "namez">
+<form>
+  <div class="row">
+    <div class="col">
+      <input id = "p1Name" type="text" class="form-control" disabled = true placeholder="Player 1 Name">
+    </div>
+    <div class="col">
+      <input id = "p2Name" type="text" class="form-control" disabled = true placeholder="Player 2 Name">
+    </div>
+  </div>
+</form>
+</div>
+
+<div class = "text-center my-3" >
+  <button id = "newPlayer" type="button" class="btn btn-outline-primary" onclick = "gameStart()">Game Start</button>
+  <button id = "restart" type="button" class="btn btn-outline-primary" hidden = true  onclick = "restart()">Restart</button>
+</div>
+
+<div id = "board" hidden = true> 
+<table class="mx-auto" style="">   
+  <tr> 
+    <td id = "0" onclick = "move(id)"></td>
+    <td id = "1" onclick = "move(id)"></td>
+    <td id = "2" onclick = "move(id)"></td>
+  </tr>
+  <tr>
+    <td id = "3" onclick = "move(id)"></td>
+    <td id = "4" onclick = "move(id)"></td>
+    <td id = "5" onclick = "move(id)"></td>
+  </tr>
+  <tr>
+    <td id = "6" onclick = "move(id)"></td>
+    <td id = "7" onclick = "move(id)"></td>
+    <td id = "8" onclick = "move(id)"></td>
+  </tr>
+</table>
+</div>
+
+<h2 id = "game" class = "text-center text-success"></h2>
+
+<script>
+var player;
+var board;
+var gameState;
+var gameOver;
+var start;
+var fullBoard = false;
+
+function gameStart(){
+  gameState = 0;
+  start = false;
+  resetGame();
+ doDisplay();
+}
+
+function resetGame(){
+ board = [0,0,0,0,0,0,0,0,0];
+ gameOver = false;
+ fullBoard = false;
+}
+
+function restart(){
+  gameState = 0;
+  start = true;
+  player = 1;
+  resetGame();
+ doDisplay();
+}  
+
+function move(pos){
+ if(gameOver)
+    return;
+  
+  if(start){
+    if(board[pos] == 0){
+      if(player == 1){
+        board[pos] = 1;
+        player = 2;
+      }
+      else{
+        board[pos] = 2;
+        player = 1;
+      }
+    }
+  }
+
+  var win_com = 
+    [[0,1,2], [0,3,6], [2,4,6], 
+    [1,4,7], [0,4,8], [2,5,8],
+    [3,4,5], [6,7,8]];
+  
+  for(var i = 0; i < 8; i++){
+    if(board[win_com[i][0]] == 1 && board[win_com[i][1]] == 1 && board[win_com[i][2]] == 1){
+      gameState = 1;
+      gameOver = true;
+    }
+    else if(board[win_com[i][0]] == 2 && board[win_com[i][1]] == 2 && board[win_com[i][2]] == 2){
+      gameState = 2;
+      gameOver = true;
+    }
+    
+    fullBoard = !board.includes(0);
+    if(fullBoard)
+      gameOver = true;
+  }
+  doDisplay();
+} 
+
+function doDisplay(){
+  var namez = document.getElementById("namez"); 
+  var p1Name = document.getElementById("p1Name"); 
+  var p2Name = document.getElementById("p2Name"); 
+  var restart = document.getElementById("restart");
+  var gameBoard = document.getElementById("board");
+  var newPlayer = document.getElementById("newPlayer"); 
+  var game = document.getElementById("game"); 
+
+  if(gameOver){
+    namez.disabled = true;
+    p1Name.disabled = true;
+    p2Name.disabled = true;
+    restart.hidden = false;
+    restart.innerHTML = "New Game";
+    newPlayer.hidden = false;
+    newPlayer.innerHTML = "Done Playing";
+    gameBoard.hidden = false;
+    if(gameState == 1){
+      game.innerHTML = p1Name.value + " Wins";
+    }
+    else if(gameState == 2){
+      game.innerHTML = p2Name.value + " Wins";
+    }
+    else if(fullBoard){
+      game.innerHTML = "No Winner";
+    }
+  }else if(start){
+    namez.disabled = true;
+    p1Name.disabled = true;
+    p2Name.disabled = true;
+    restart.hidden = false;
+    restart.innerHTML = "Restart Game";
+    newPlayer.hidden = false;
+    newPlayer.innerHTML = "Done Playing";
+    gameBoard.hidden = false;
+    if(player == 1){
+      game.innerHTML = "Player  "+p1Name.value+"'s Turn";
+    }else{
+      game.innerHTML = "Player  "+p2Name.value+"'s Turn";
+    }
+  }else{
+    namez.disabled = false;
+    p1Name.disabled = false;
+    p2Name.disabled = false;
+    restart.hidden = false;
+    restart.innerHTML = "Start Game";
+    newPlayer.hidden = true;
+    gameBoard.hidden = true;
+    game.innerHTML = "Enter your name and click start game";
+  }
+
+ for(var i = 0; i < board.length; i++){
+    if(board[i] == 1)
+       document.getElementById(i).innerHTML = "X";
+    else if(board[i] == 2)
+       document.getElementById(i).innerHTML = "O";
+    else
+      document.getElementById(i).innerHTML = " ";
+ }
+}
+
+</script>
+
+</body>
+</html>

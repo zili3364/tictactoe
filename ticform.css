@@ -1,0 +1,16 @@
+.cell{
+ height: 50px;
+ border: 1px solid black;
+ text-align: center;
+ font-size: 18pt;
+ line-height: 46px;
+}
+
+.tic-container{
+  width: 150px;
+  margin: 0 auto;;
+}
+
+
+
+

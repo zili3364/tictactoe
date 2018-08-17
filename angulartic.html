@@ -1,0 +1,46 @@
+<!DOCTYPE html> 
+<html ng-app = "ticapp">
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
+  <script src="components.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="ticform.css">
+</head>
+<body>
+
+<h1 class = "text-center">Tic Tac Toe</h1>
+
+<div ng-controller = "ticController as tic">
+  <div id = "namez">
+    <form >
+      <div class="row">
+        <div class="col">
+          <input ng-model = "tic.p1Name" type="text" class="form-control" ng-disabled = "tic.nameDisabled" placeholder="Player 1 Name">
+        </div>
+        <div class="col">
+          <input ng-model = "tic.p2Name" type="text" class="form-control" ng-disabled = "tic.nameDisabled" placeholder="Player 2 Name">
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class = "text-center my-3">
+    <button ng-model = "tic.newPlayerButton" ng-hide= "tic.setup == true" type="button" class="btn btn-outline-primary" ng-click = "tic.gameStart()">{{tic.newPlayerButton}}</button>
+    <button ng-model  = "tic.restartButton"  ng-show = "tic.showRestart == true"  type="button" class="btn btn-outline-primary" ng-click = "tic.restart()">{{tic.restartButton}}</button>
+  </div>
+
+  <div ng-show = "tic.start == true"> 
+    <div class="container">
+      <div class="row tic-container">
+        <div class="col-4 cell" ng-click="tic.move(index)" ng-repeat="(index, value) in tic.board track by $index">
+          <span ng-show="value == 1">X</span>
+          <span ng-show="value == 2">O</span>
+        </div>
+     </div>
+    </div>
+  </div>
+  
+  <h2 class = "text-center text-success">{{tic.gameStatus}}</h2>
+</div>
+</body>
+</html>
